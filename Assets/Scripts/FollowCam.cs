@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+using System.Net;
 using UnityEngine;
 
 public class FollowCam : MonoBehaviour
@@ -7,7 +9,19 @@ public class FollowCam : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        const string url = "https://jsonplaceholder.typicode.com/users";
+        //const string url = "http://52.155.167.255/api/test";
+        HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+        request.Method = "GET";
+
+        var webResponse = request.GetResponse();
+        var webStream = webResponse.GetResponseStream();
+        var responseReader = new StreamReader(webStream);
+        string response = responseReader.ReadToEnd();
+        print(response);
+        responseReader.Close();
+    
+    //print("Hello app start");
     }
 
 	public float easing = 0.05f;
